@@ -1,0 +1,14 @@
+{
+  "name": "jsfs-saralyna-g-1",
+  "version": "1.0.0",
+  "description": "Sara Lyna OUYAHIA",
+  "main": "index.js",
+  "author": "Sara Lyna",
+  "license": "ISC",
+  "type" : "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+
+}
