@@ -1,9 +1,9 @@
 export default class ResponseBuilder{
-  #response;
+  _response;
   #statusCode;
   #contentType
   constructor(response) {
-    this.#response = response;
+    this._response = response;
     this.#statusCode = 200;
     this.#contentType = 'text/html';
   }
@@ -23,16 +23,16 @@ export default class ResponseBuilder{
   }
 
   buildHeader() {
-    this.#response.statusCode = this.#statusCode;
-    this.#response.setHeader('Content-Type', this.#contentType);
+    this._response.statusCode = this.#statusCode;
+    this._response.setHeader('Content-Type', this.#contentType);
   }
   buildBody() {
     // À implémenter dans les sous-classes
   }
   buildFooter() {
    const currentDate = new Date().toISOString();
-   this.#response.write(`<footer>${currentDate}</footer></body></html>`);
-   this.#response.end();
+   this._response.write(`<footer>${currentDate}</footer></body></html>`);
+   this._response.end();
   }
 }
 
@@ -44,13 +44,13 @@ export class HtmlResponseBuilder extends ResponseBuilder{
 
 export class FirstPageHtmlResponseBuilder extends HtmlResponseBuilder {
   buildBody() {
-    this.#response.write(`<p> First Page Content </p>`);
+    this._response.write(`<p> First Page Content </p>`);
   }
 }
 
 export class SecondPageHtmlResponseBuilder extends HtmlResponseBuilder {
   buildBody() {
-    this.#response.write(`<p> Second Page Content </p>`);
+    this._response.write(`<p> Second Page Content </p>`);
   }
 }
 
@@ -68,8 +68,8 @@ export class JsonResponseBuilder extends ResponseBuilder{
      jsonData[key] = value;
    });
    jsonData.date = new Date().toISOString();
-   this.#response.write(JSON.stringify(jsonData));
-   this.#respone.end;
+   this._response.write(JSON.stringify(jsonData));
+   this._response.end;
   }
 }
 
@@ -79,7 +79,7 @@ export class NotFoundHtmlResponseBuilder extends HtmlResponseBuilder {
     this.setStatusCode(404);
   }
   buildBody() {
-    this.#response.write(`<p>404: Page not found </p>`);
-    this.#response.end;
+    this._response.write(`<p>404: Page not found </p>`);
+    this._response.end;
   }
 }
