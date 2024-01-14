@@ -23,7 +23,7 @@ export default class ResponseBuilder{
   }
 
   buildHeader() {
-    this.#response.statusCode = this.statusCode;
+    this.#response.statusCode = this.#statusCode;
     this.#response.setHeader('Content-Type', this.#contentType);
   }
   buildBody() {
@@ -44,13 +44,13 @@ export class HtmlResponseBuilder extends ResponseBuilder{
 
 export class FirstPageHtmlResponseBuilder extends HtmlResponseBuilder {
   buildBody() {
-    response.write(`<p> First Page Content </p>`);
+    this.#response.write(`<p> First Page Content </p>`);
   }
 }
 
 export class SecondPageHtmlResponseBuilder extends HtmlResponseBuilder {
   buildBody() {
-    response.write(`<p> Second Page Content </p>`);
+    this.#response.write(`<p> Second Page Content </p>`);
   }
 }
 
@@ -68,7 +68,8 @@ export class JsonResponseBuilder extends ResponseBuilder{
      jsonData[key] = value;
    });
    jsonData.date = new Date().toISOString();
-   this.response.write(JSON.stringify(jsonData));
+   this.#response.write(JSON.stringify(jsonData));
+   this.#respone.end;
   }
 }
 
@@ -78,6 +79,7 @@ export class NotFoundHtmlResponseBuilder extends HtmlResponseBuilder {
     this.setStatusCode(404);
   }
   buildBody() {
-    this.response.write(`<p>404: Page not found </p>`);
+    this.#response.write(`<p>404: Page not found </p>`);
+    this.#response.end;
   }
 }
