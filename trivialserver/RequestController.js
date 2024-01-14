@@ -1,12 +1,16 @@
 import { URL } from 'url';
-import ResponseBuilder from './ResponseBuilder.js';
+import {
+  HtmlResponseBuilder,
+  JsonResponseBuilder,
+  NotFoundHtmlResponseBuilder,
+  FirstPageHtmlResponseBuilder,
+  SecondPageHtmlResponseBuilder,
+} from './ResponseBuilder.js';
 
 export default class RequestController {
-
   #request;
   #response;
   #url;
-
   constructor(request, response) {
     this.#request = request,
     this.#response = response;
@@ -18,43 +22,31 @@ export default class RequestController {
   }
 
   handleRequest() {
-    this.prepareResponse();
-    this.buildResponse();
+    const router = new RequestRouter(this.#url, this.#response);
+    router.routeRequest();
+  }
+}
+
+class RequestRouter {
+  #url;
+  #response;
+  constructor(url, response) {
+    this.#url = url;
+    this.#response = response;
   }
 
-  prepareResponse() {
-    this.response.statusCode = 200;
-    this.response.setHeader( 'Content-Type' , 'text/html');
+  routeRequest() {
+    const pathname = this.#url.pathname;
+    let responseBuilder;
+      if (pathname === '/first') {
+        responseBuilder = new FirstPageHtmlResponseBuilder(this.#response);
+      } else if (pathname === '/second') {
+        responseBuilder = new SecondPageHtmlResponseBuilder(this.#response);
+      } else if (pathname === '/json') {
+        responseBuilder = new JsonResponseBuilder(this.#response, this.#url.searchParams);
+      } else {
+        responseBuilder = new NotFoundHtmlResponseBuilder(this.#response);
+      }
+    responseBuilder.buildResponse();
   }
-
-  buildResponse()  {
-    const nameValue = this.#url.searchParams.get('name') || 'unknown';
-
-
-    // routage "à la main"
-    if (this.#url.pathname == '/') {
-        this.response.write(`<h2>welcome home</h2>`);
-    }
-    else if (this.#url.pathname.startsWith('/welcome') ){
-      this.response.write(`<p>Welcome to <strong>${nameValue}</strong></p>`);
-    }
-    else if (this.#url.pathname.startsWith('/first')) {
-      this.response.write(`premier`);
-
-    }
-    else if (this.#url.pathname.startsWith('/second')) {
-      this.response.write(`second`);
-
-    }
-    else if (this.#url.pathname.startsWith('/json')) {
-      this.response.write(`json`);
-
-    }
-    else {
-      this.response.write(`<p>Something else</p>`);
-    }
-
-    this.response.end();
-  }
-
 }
