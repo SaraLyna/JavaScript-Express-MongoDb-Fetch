@@ -5,6 +5,8 @@ import {
   NotFoundHtmlResponseBuilder,
   FirstPageHtmlResponseBuilder,
   SecondPageHtmlResponseBuilder,
+  RandomJsonResponseBuilder,
+  ResourceResponseBuilder,
 } from './ResponseBuilder.js';
 
 export default class RequestController {
@@ -44,6 +46,11 @@ class RequestRouter {
         responseBuilder = new SecondPageHtmlResponseBuilder(this.#response);
       } else if (pathname === '/json') {
         responseBuilder = new JsonResponseBuilder(this.#response, this.#url.searchParams);
+      } else if (pathname === '/random') {
+        responseBuilder = new RandomJsonResponseBuilder(this.#response, this.#url.searchParams);
+      } else if (pathname.startsWith('/public')) {
+        const resourcePath = pathname.replace('/public', ''); // Extraire le chemin de la ressource
+        responseBuilder = new ResourceResponseBuilder(this.#response, resourcePath);
       } else {
         responseBuilder = new NotFoundHtmlResponseBuilder(this.#response);
       }
