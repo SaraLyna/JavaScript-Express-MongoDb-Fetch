@@ -24,6 +24,7 @@ export default class ResponseBuilder{
 
   buildHeader() {
     this._response.statusCode = this.#statusCode;
+    //this._response.write(`<html><head> Title </head><body>`);
     this._response.setHeader('Content-Type', this.#contentType);
   }
   buildBody() {
@@ -70,6 +71,10 @@ export class JsonResponseBuilder extends ResponseBuilder{
    jsonData.date = new Date().toISOString();
    this._response.write(JSON.stringify(jsonData));
    this._response.end;
+  }
+  buildFooter() {
+   const currentDate = new Date().toISOString();
+   this._response.end();
   }
 }
 
