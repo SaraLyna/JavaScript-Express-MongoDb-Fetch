@@ -1,13 +1,12 @@
 import { URL } from 'url';
-import {
-  HtmlResponseBuilder,
-  JsonResponseBuilder,
-  NotFoundHtmlResponseBuilder,
-  FirstPageHtmlResponseBuilder,
-  SecondPageHtmlResponseBuilder,
-  RandomJsonResponseBuilder,
-  ResourceResponseBuilder,
-} from './ResponseBuilder.js';
+import HtmlResponseBuilder from './HtmlResponseBuilder.js';
+import JsonResponseBuilder from './JsonResponseBuilder.js';
+import NotFoundHtmlResponseBuilder from './NotFoundHtmlResponseBuilder.js';
+import FirstPageHtmlResponseBuilder from './FirstPageHtmlResponseBuilder.js';
+import SecondPageHtmlResponseBuilder from './SecondPageHtmlResponseBuilder.js';
+import RandomJsonResponseBuilder from './RandomJsonResponseBuilder.js';
+import ResourceResponseBuilder from './ResourceResponseBuilder.js';
+import ResponseBuilder from './ResponseBuilder.js';
 
 export default class RequestController {
   #request;
