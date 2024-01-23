@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-
+import { Server as SocketIO } from 'socket.io';
 import { getContentTypeFrom }  from '../scripts/contentTypeUtil.js';
 
 const BASE = 'http://localhost/';
@@ -11,11 +11,13 @@ export default class RequestController {
   #request;
   #response;
   #url;
+  #io;
 
-  constructor(request, response) {
+  constructor(request, response, io) {
     this.#request = request,
     this.#response = response;
     this.#url = new URL(this.request.url,BASE).pathname;   // on ne considère que le "pathname" de l'URL de la requête
+    this.#io = io;
   }
 
   get response() {
@@ -30,8 +32,25 @@ export default class RequestController {
 
   async handleRequest() {
     this.response.setHeader("Content-Type" , getContentTypeFrom(this.url) );
+    if (this.isWebSocketUpgradeRequest()) {
+      this.handleWebSocket();
+    } else {
     await this.buildResponse();
     this.response.end();
+    }
+  }
+
+
+  isWebSocketUpgradeRequest() {
+   return this.request.headers.upgrade === 'websocket';
+  }
+
+  handleWebSocket() {
+    const socket = this.#io.acceptConnection(this.request, this.response);
+    socket.on('message', (message) => {
+      console.log(`Received message from WebSocket client: ${message}`);
+    });
+    socket.send('Hello from the WebSocket server!');
   }
 
   /**

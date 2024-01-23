@@ -1,3 +1,20 @@
+const socket = io();
+
+socket.on('ping', (data) => {
+  console.log('Received from server:', data);
+
+  socket.emit('pong', { message: 'pong' });
+});
+
+socket.on('message', (data) => {
+    console.log('Received message from server:', data.number);
+
+    myChart.data.datasets[0].data.push(data.number);
+    myChart.data.datasets[0].data.shift();
+
+    myChart.update();
+
+});
 
 const nbValues = 12;
 const defaultValue = 1;
