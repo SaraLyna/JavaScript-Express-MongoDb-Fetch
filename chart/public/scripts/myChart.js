@@ -9,11 +9,15 @@ socket.on('ping', (data) => {
   socket.emit('pong', { message: 'pong' });
 });
 
-socket.on('message', (data) => {
+socket.on('parametrizedMessage', (data) => {
     console.log('Received message from server:', data.number);
 
     myChart.data.datasets[0].data.push(data.number);
     myChart.data.datasets[0].data.shift();
+
+
+    const element = myChart.data.labels.pop();
+    myChart.data.labels.unshift(element);
 
     myChart.update();
 

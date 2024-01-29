@@ -18,7 +18,9 @@ export default class IOController {
     socket.emit('ping', { message: 'ping' });
     setInterval(() => {
       const random = Math.floor(Math.random() * 7) + 2;
-      socket.emit('parametrizedMessage', { number: random });
+      this.#io.to(socket.id).emit('parametrizedMessage', { number: random });
+      console.log(`Sent parametrized message to client ${socket.id}: ${random}`);
+      this.#clients.set(socket.id, random);
     }, 2000);
 
     this.setupListeners(socket);
@@ -27,6 +29,8 @@ export default class IOController {
   setupListeners(socket) {
     socket.on( msg.GREATINGS  , user => this.greatings(socket, user.name) );
     socket.on( 'disconnect' , () => this.leave(socket) );
+    clearInterval(this.#clients.get(socket.id));
+    this.#clients.delete(socket.id);
     socket.on( msg.JOIN_PRIVATE , () => this.joinPrivate(socket));
   }
 
