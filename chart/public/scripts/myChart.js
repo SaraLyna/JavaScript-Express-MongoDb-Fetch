@@ -1,4 +1,7 @@
-const socket = io();
+
+
+
+const socket = io('http://localhost:8080');
 
 socket.on('ping', (data) => {
   console.log('Received from server:', data);

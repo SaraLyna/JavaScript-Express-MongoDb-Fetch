@@ -15,6 +15,12 @@ export default class IOController {
 
   registerSocket(socket) {
     console.log(`new connection with id ${socket.id}`);
+    socket.emit('ping', { message: 'ping' });
+    setInterval(() => {
+      const random = Math.floor(Math.random() * 7) + 2;
+      socket.emit('parametrizedMessage', { number: random });
+    }, 2000);
+
     this.setupListeners(socket);
   }
 
@@ -48,5 +54,7 @@ export default class IOController {
     console.log(`disconnection from ${socket.id} (user : ${userName})`);
     this.#clients.delete(socket.id);
   }
+
+
 
 }
