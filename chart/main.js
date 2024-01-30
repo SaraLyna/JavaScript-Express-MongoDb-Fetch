@@ -14,7 +14,7 @@ const io = new ServerIO(server);
 const ioController = new IOController(io);
 
 
-io.on('connection', socket =>console.log(`connexion réussie`));
+io.on('connection', socket =>console.log(`Nouvelle connexion établie`));
 io.on('connection', socket => ioController.registerSocket(socket) );
 //io.on('connection', ioController.registerSocket.bind(ioController) );  // version alternative
 
