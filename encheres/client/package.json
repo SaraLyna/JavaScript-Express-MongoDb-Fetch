@@ -1,33 +1,18 @@
 {
-  "name": "client",
+  "name": "client-app",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "../index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
-  "keywords": [
-    "webpack"
-  ],
-  "type": "module",
-  "author": "Sara Lyna",
+  "author": "Sara Lyna OUYAHIA",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.16.5",
-    "@babel/preset-env": "^7.16.5",
-    "@babel/preset-react": "^7.16.5",
-    "babel-loader": "^8.2.3",
-    "copy-webpack-plugin": "^10.2.0",
-    "css-loader": "^6.5.1",
-    "file-loader": "^6.2.0",
+    "copy-webpack-plugin": "^12.0.2",
     "html-webpack-plugin": "^5.6.0",
-    "style-loader": "^3.3.1",
-    "webpack": "^5.90.0",
     "webpack-cli": "^5.1.4"
   },
-  "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  }
+  "description": ""
 }

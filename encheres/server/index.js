@@ -1,5 +1,5 @@
 import http from 'http';
-import RequestController from './RequestController.js';
+import RequestController from './controllers/RequestController.js';
 
 
 const server = http.createServer(
@@ -7,3 +7,5 @@ const server = http.createServer(
 
 
 server.listen(8080);
+
+
