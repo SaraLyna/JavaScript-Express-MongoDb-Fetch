@@ -10,25 +10,55 @@ module.exports = {
     'commissaire-priseur': path.resolve(__dirname, 'scripts', 'commissaire-priseur.js'),
     'encherisseur' : path.resolve(__dirname, 'scripts', 'encherisseur.js')
   },
-  mode : 'development',
+  //mode : 'development',
 
   output: {
     path: path.resolve(__dirname, '../server/public'),
     filename: 'scripts/[name]-bundle.js'
   },
+ 
+  mode :  (PRODUCTION ? 'production' : 'development'),
+  devtool : (PRODUCTION ? undefined : 'eval-source-map'),
+
   
   devServer: {
       static: {
-	       publicPath: path.resolve(__dirname, 'dist'),
+	       publicPath: path.resolve(__dirname, 'server/index.js'),
 	       watch : true
       },
       host: 'localhost',
       port : 8888,
-      open : true
+      open : 'firefox'
+  },
+
+  module: {
+    rules : [
+      {
+        test: /\.css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' }
+        ]
+      },
+      {
+        test: /\.(png|jpg|gif)/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name : '[name].[ext]',
+              outputPath : 'images'
+            }
+          }
+        ]
+      }
+    ]
   },
 
 
+
   plugins: [
+    new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
         template: "./html/commissaire-priseur.html",
         filename: "../public/commissaire-priseur.html",
@@ -43,13 +73,13 @@ module.exports = {
 
     new CopyPlugin({
       patterns: [
-       /* {
+       {
           context: path.resolve(__dirname, 'html'),
           from: '*.html',
 	  to:   'html/[name].html',
           noErrorOnMissing: true
 	},
-  */
+  
         {
           context: path.resolve(__dirname, 'images'),
           from: '**/*',
@@ -65,13 +95,5 @@ module.exports = {
       ]
    })
   ]
-
-
-
-
-
-
-
-
 
 };

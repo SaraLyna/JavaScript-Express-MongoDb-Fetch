@@ -1,18 +1,24 @@
 {
   "name": "client-app",
   "version": "1.0.0",
+  "description": "",
   "main": "../index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "dev-server": "webpack serve"
   },
   "author": "Sara Lyna OUYAHIA",
   "license": "ISC",
   "devDependencies": {
     "copy-webpack-plugin": "^12.0.2",
+    "css-loader": "^5.0.1",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0",
-    "webpack-cli": "^5.1.4"
-  },
-  "description": ""
+    "style-loader": "^2.0.0",
+    "webpack": "^5.13.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.0.0-beta.0"
+  }
 }
