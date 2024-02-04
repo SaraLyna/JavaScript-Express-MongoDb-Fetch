@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 
+const PRODUCTION = false;
 
 module.exports = {
 
@@ -23,12 +24,12 @@ module.exports = {
   
   devServer: {
       static: {
-	       publicPath: path.resolve(__dirname, 'server/index.js'),
+	       publicPath: path.resolve(__dirname, '../server/index.js'),
 	       watch : true
       },
       host: 'localhost',
-      port : 8888,
-      open : 'firefox'
+      port : 8080,
+      open : true
   },
 
   module: {

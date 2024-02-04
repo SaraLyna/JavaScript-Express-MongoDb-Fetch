@@ -2,11 +2,12 @@
   "name": "projet",
   "version": "1.0.0",
   "description": "projet 1",
-  "main": "./index.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "test": " \"echo \"Error: no test specified\" && exit 1\""
+    "test": " \"echo \"Error: no test specified\" && exit 1\"",
+    "dev-server": "webpack serve"
   },
   "type": "module",
   "author": "Sara Lyna",
