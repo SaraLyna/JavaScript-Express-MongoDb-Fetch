@@ -9,13 +9,13 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./scripts/encherisseur.js":
-/*!*********************************!*\
-  !*** ./scripts/encherisseur.js ***!
-  \*********************************/
+/***/ "./src/scripts/encherisseur.js":
+/*!*************************************!*\
+  !*** ./src/scripts/encherisseur.js ***!
+  \*************************************/
 /***/ (() => {
 
-eval("document.addEventListener('DOMContentLoaded', () => {\n    const socket = io();\n    socket.on('connection', () => {\n        console.log('Connecté au serveur de sockets en tant qu\\'enchérisseur');\n    });\n});\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zY3JpcHRzL2VuY2hlcmlzc2V1ci5qcyIsIm1hcHBpbmdzIjoiQUFBQTtBQUNBO0FBQ0E7QUFDQTtBQUNBLEtBQUs7QUFDTCxDQUFDIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vY2xpZW50LWFwcC8uL3NjcmlwdHMvZW5jaGVyaXNzZXVyLmpzP2JjNDQiXSwic291cmNlc0NvbnRlbnQiOlsiZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsICgpID0+IHtcbiAgICBjb25zdCBzb2NrZXQgPSBpbygpO1xuICAgIHNvY2tldC5vbignY29ubmVjdGlvbicsICgpID0+IHtcbiAgICAgICAgY29uc29sZS5sb2coJ0Nvbm5lY3TDqSBhdSBzZXJ2ZXVyIGRlIHNvY2tldHMgZW4gdGFudCBxdVxcJ2VuY2jDqXJpc3NldXInKTtcbiAgICB9KTtcbn0pO1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./scripts/encherisseur.js\n");
+eval("document.addEventListener('DOMContentLoaded', () => {\n    const socket = io();\n    socket.on('connection', () => {\n        console.log('Connecté au serveur de sockets en tant qu\\'enchérisseur');\n    });\n});\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvc2NyaXB0cy9lbmNoZXJpc3NldXIuanMiLCJtYXBwaW5ncyI6IkFBQUE7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLO0FBQ0wsQ0FBQyIsInNvdXJjZXMiOlsid2VicGFjazovL2NsaWVudC1hcHAvLi9zcmMvc2NyaXB0cy9lbmNoZXJpc3NldXIuanM/ZmY3YSJdLCJzb3VyY2VzQ29udGVudCI6WyJkb2N1bWVudC5hZGRFdmVudExpc3RlbmVyKCdET01Db250ZW50TG9hZGVkJywgKCkgPT4ge1xuICAgIGNvbnN0IHNvY2tldCA9IGlvKCk7XG4gICAgc29ja2V0Lm9uKCdjb25uZWN0aW9uJywgKCkgPT4ge1xuICAgICAgICBjb25zb2xlLmxvZygnQ29ubmVjdMOpIGF1IHNlcnZldXIgZGUgc29ja2V0cyBlbiB0YW50IHF1XFwnZW5jaMOpcmlzc2V1cicpO1xuICAgIH0pO1xufSk7XG4iXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./src/scripts/encherisseur.js\n");
 
 /***/ })
 
@@ -26,7 +26,7 @@ eval("document.addEventListener('DOMContentLoaded', () => {\n    const socket = 
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
 /******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./scripts/encherisseur.js"]();
+/******/ 	__webpack_modules__["./src/scripts/encherisseur.js"]();
 /******/ 	
 /******/ })()
 ;

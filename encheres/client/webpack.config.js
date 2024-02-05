@@ -8,10 +8,9 @@ const PRODUCTION = false;
 module.exports = {
 
   entry: {                         
-    'commissaire-priseur': path.resolve(__dirname, 'scripts', 'commissaire-priseur.js'),
-    'encherisseur' : path.resolve(__dirname, 'scripts', 'encherisseur.js')
+    'commissaire-priseur': path.resolve(__dirname, 'src/scripts', 'commissaire-priseur.js'),
+    'encherisseur' : path.resolve(__dirname, 'src/scripts', 'encherisseur.js')
   },
-  //mode : 'development',
 
   output: {
     path: path.resolve(__dirname, '../server/public'),
@@ -23,13 +22,13 @@ module.exports = {
 
   
   devServer: {
-      static: {
-	       publicPath: path.resolve(__dirname, '../server/index.js'),
-	       watch : true
-      },
-      host: 'localhost',
-      port : 8080,
-      open : true
+    static: {
+      publicPath: path.resolve(__dirname, "../public"),
+      watch: true,
+    },
+    host: "localhost",
+    port: 8080,
+    open: true,
   },
 
   module: {
@@ -61,38 +60,44 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
-        template: "./html/commissaire-priseur.html",
-        filename: "../public/commissaire-priseur.html",
+        template: "./src/html/commissaire-priseur.html",
+        filename: "../public/html/commissaire-priseur.html",
         chunks : ['commissaire-priseur']
     }),
 
     new HtmlWebpackPlugin({
-      template: "./html/encherisseur.html",
-      filename: "../public/encherisseur.html",
+      template: "./src/html/encherisseur.html",
+      filename: "../public/html/encherisseur.html",
       chunks : ['encherisseur']
     }),
 
     new CopyPlugin({
       patterns: [
-       {
-          context: path.resolve(__dirname, 'html'),
-          from: '*.html',
-	  to:   'html/[name].html',
-          noErrorOnMissing: true
-	},
-  
         {
-          context: path.resolve(__dirname, 'images'),
-          from: '**/*',
-	  to:   'images/[name][ext]',
-          noErrorOnMissing: true
-	},
+          context: path.resolve(__dirname, "src", "scripts"),
+          from: "**/test.js",
+          to: "scripts",
+        },
         {
-          context: path.resolve(__dirname, 'style'),
-          from: '**/*',
-	  to:   'style/[name][ext]',
-          noErrorOnMissing: true
-	},
+          context: path.resolve(__dirname, "src", "html"),
+          from: "**/about.html",
+          to: "html",
+        },
+        {
+          context: path.resolve(__dirname, "src", "html"),
+          from: "**/erreur.html",
+          to: "html",
+        },
+        {
+          context: path.resolve(__dirname, "src", "images"),
+          from: "./*.jpg",
+          to: "images",
+        },
+        {
+          context: path.resolve(__dirname, "src", "style"),
+          from: "./*.css",
+          to: "style",
+        },
       ]
    })
   ]
