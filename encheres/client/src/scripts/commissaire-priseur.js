@@ -5,10 +5,12 @@ socket.on('connection', () => {
 });
 
 
-function startFunction() {
-    alert("Bouton de démarrage cliqué !");
+function start() {
+    const item = document.getElementById('objet').value;
+    const initialPrice = document.getElementById('prix').value;
+    socket.emit('startAuction', item, initialPrice);
 }
 
-function commissaireFunction() {
-    alert("Bouton du commissaire cliqué !");
+function end() {
+    socket.emit('endAuction');
 }

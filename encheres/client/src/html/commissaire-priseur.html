@@ -21,21 +21,21 @@
     </div>
     <div class="enchere-form">
       <div class="objet">
-        <label for="objet">Objet aux enchères </label>
-        <input type="text" id="objet" name="objet" placeholder="description">
+        <label for="item">Objet aux enchères </label>
+        <input type="text" id="item" name="objet" placeholder="description">
       </div>
       <div class="prix">
-        <label for="price">Prix de dépar t</label>
-        <input type="number" id="prix" name="prix" min="0" max="1000" step="1" value="10">
+        <label for="initialPrice">Prix de départ</label>
+        <input type="number" id="initialPrice" name="prix" min="0" max="1000" step="1" value="10">
       </div>
       <div class="montant-actuel">
         <span id="valeur">Montant actuel enchère </span>
       </div>
       <div class="buttons">
-        <button class="button-start" onclick="startFunction()">
+        <button class="button-start" onclick="start()">
             <img src="./images/start.jpg" alt="start">
         </button>
-        <button class="button-commissaire" onclick="commissaireFunction()">
+        <button class="button-commissaire" onclick="end()">
             <img src="./images/commissaire.jpg" alt="commissaire">
         </button>
       </div>
