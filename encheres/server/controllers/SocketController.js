@@ -1,69 +1,69 @@
 import { Server as ServerIO } from "socket.io";
 
-const PRIVATE_ROOM = 'private';
+const AUCTION_ROOM = 'auction';
 
 export default class SocketController {
+    #io;
+    #auctioneer;
+    #bidders;
 
-  #io;
-  #bidders;
+    constructor(server) {
+        this.#io = new ServerIO(server);
+        this.#auctioneer = null;
+        this.#bidders = new Map();
+    }
 
-  constructor(io) {
-    this.#io = new ServerIO(server);
-    this.#bidders = new Map();
+    initController() {
+        this.#io.on("connection", socket => this.handleConnection(socket));
+    }
 
-  }
-  
-  initController() {
-    this.#io.on("connection", socket => this.setupListeners(socket));
-  }
+    handleConnection(socket) {
+        console.log(`Nouvelle connexion avec l'ID ${socket.id}`);
 
+        socket.emit('connected', { id: socket.id });
 
-  registerSocket(socket) {
-    console.log(`new connection with id ${socket.id}`);
-    socket.emit('ping', { message: 'ping' });
-    setInterval(() => {
-      const random = Math.floor(Math.random() * 7) + 2;
-      this.#io.to(socket.id).emit('parametrizedMessage', { number: random });
-      console.log(`Sent parametrized message to client ${socket.id}: ${random}`);
-      this.#clients.set(socket.id, random);
-    }, 2000);
+        socket.on('joinAuction', () => this.handleJoinAuction(socket));
+        socket.on('startAuction', (item, initialPrice) => this.handleStartAuction(socket, item, initialPrice));
+        socket.on('bid', (bidderId, amount) => this.handleBid(socket, bidderId, amount));
+        socket.on('endAuction', () => this.handleEndAuction(socket));
 
-    this.setupListeners(socket);
-  }
+        socket.on('disconnect', () => {
+            if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+                this.#auctioneer = null;
+                this.#io.to(AUCTION_ROOM).emit('auctioneerLeft');
+            } else if (this.#bidders.has(socket.id)) {
+                this.#bidders.delete(socket.id);
+                this.#io.to(AUCTION_ROOM).emit('bidderLeft');
+            }
+        });
+    }
 
-  setupListeners(socket) {
-    socket.on( msg.GREATINGS  , user => this.greatings(socket, user.name) );
-    socket.on( 'disconnect' , () => this.leave(socket) );
-    clearInterval(this.#clients.get(socket.id));
-    this.#clients.delete(socket.id);
-    socket.on( msg.JOIN_PRIVATE , () => this.joinPrivate(socket));
-  }
+    handleJoinAuction(socket) {
+        if (!this.#auctioneer) {
+            this.#auctioneer = { id: socket.id };
+            socket.join(AUCTION_ROOM);
+            socket.emit('auctioneerJoined');
+        } else {
+            socket.emit('auctionAlreadyInProgress');
+        }
+    }
 
-  greatings(socket, userName) {
-    console.log(`greatings received from ${userName} (id : ${socket.id})`);
-    this.#clients.set(socket.id, userName);
-    socket.emit(msg.WELCOME);
-    socket.broadcast.emit(msg.NEW_USER, userName);
-  }
+    handleStartAuction(socket, item, initialPrice) {
+        if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+            this.#io.to(AUCTION_ROOM).emit('auctionStarted', item, initialPrice);
+        }
+    }
 
-  joinPrivate(socket) {
-    socket.join(PRIVATE_ROOM);
-    this.#io.to(PRIVATE_ROOM).emit(msg.PRIVATE, `${this.#clients.get(socket.id)} a rejoint le salon`, 'serveur');
-    socket.on( msg.PRIVATE_MESSAGE, msg => this.sendPrivateMessage(socket, msg) );
-  }
+    handleBid(socket, bidderId, amount) {
+        if (this.#auctioneer && bidderId !== this.#auctioneer.id) {
+            this.#io.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
+        }
+    }
 
-  sendPrivateMessage(socket, msg) {
-    const senderName = this.#clients.get(socket.id);
-    socket.to(PRIVATE_ROOM).emit(msg.PRIVATE, msg, senderName);
-    console.log(`message sent to room ${PRIVATE_ROOM} from ${senderName}`);
-  }
-
-  leave(socket) {
-    const userName = this.#clients.get(socket.id) || 'unknown' ;
-    console.log(`disconnection from ${socket.id} (user : ${userName})`);
-    this.#clients.delete(socket.id);
-  }
-
-
-
+    handleEndAuction(socket) {
+        if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+            this.#io.to(AUCTION_ROOM).emit('auctionEnded');
+            this.#auctioneer = null;
+        }
+    }
 }

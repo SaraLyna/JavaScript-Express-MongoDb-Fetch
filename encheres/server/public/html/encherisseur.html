@@ -5,23 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enchérisseur</title>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="bidder.js"></script>
+    <script src="./scripts/encherisseur-bundle.js"></script>
+    <link href="./style/style.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" type="ico" href="favicon.ico"/>
 <script defer src="../scripts/encherisseur-bundle.js"></script></head>
 <body>
-    <header>
-      <h1>Page Enchérisseur</h1>
-      <div class="">
-        <p> Bienvenue <span id=""></span></p>
-      </div>
-      
-    </header>
-    <main>
-      <div class="">
-        <p>Prix actuel : <span id=""></span>€</p>
-      </div>
-      
-      <div>
-        <a href="./about">Retour à la page d'accueil</a>
-      </div>
+  <header>
+    <h1>Enchérisseur</h1>
+  </header>
+  <main>
+    <div class="welcome-message">
+        <p>Bienvenue. <span id="welcome-span"></span></p>
+    </div>
+    <div class="bidder-info">
+        <p>Mise aux enchères : <span id="time-remaining"></span></p>
+        <p>Prix actuel : <span id="current-price"></span>€</p>
+    </div>
+    <div class="return-accueil">
+        <a href="./about">retour à l'accueil</a>
+    </div>
+  </main>
 </body>
 </html>

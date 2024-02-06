@@ -1,0 +1,90 @@
+/* style.css */
+
+/* Styles pour l'en-tête */
+.auctionner-header {
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Styles pour les informations du commissaire-priseur */
+.commissaire-priseur-info {
+   max-width: 800px;
+   margin: 20px auto;
+   border: 1px solid #ccc;
+   padding: 20px;
+   border-radius: 10px;
+}
+
+/* Styles pour le formulaire d'enchère */
+.enchere-form {
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Style pour les boutons */
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style pour chaque bouton */
+.buttons button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px; /* Espace entre les boutons */
+}
+
+/* Style spécifique pour le bouton de démarrage */
+.button-start img {
+    width: 100px; /* Largeur de l'image */
+    height: auto; /* Hauteur ajustée automatiquement */
+}
+
+/* Style spécifique pour le bouton du commissaire */
+.button-commissaire img {
+    width: 50px; /* Largeur de l'image */
+    height: auto; /* Hauteur ajustée automatiquement */
+}
+
+/* Styles pour le lien de retour à l'accueil */
+.retour-accueil {
+    text-align: center;
+    margin-top: 20px;
+}
+/* style d'encherisseur */
+
+/* Styles pour l'en-tête */
+header {
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
+}
+
+img {
+   max-width: 800px;
+   margin: 20px auto;
+   border: 1px solid #ccc;
+   padding: 20px;
+   border-radius: 10px;
+}
+.welcome-message {
+   max-width: 800px;
+   margin: 20px auto;
+   border: 1px solid #ccc;
+   padding: 20px;
+   border-radius: 10px;
+}
+
+/* Styles pour les informations sur les enchères */
+.bidder-info {
+   max-width: 800px;
+   margin: 20px auto;
+   border: 1px solid #ccc;
+   padding: 20px;
+   border-radius: 10px;
+}

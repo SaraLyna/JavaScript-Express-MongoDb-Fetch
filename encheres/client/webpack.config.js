@@ -84,6 +84,11 @@ module.exports = {
         },
         {
           context: path.resolve(__dirname, "src", "html"),
+          from: "**/affichage.html",
+          to: "html",
+        },
+        {
+          context: path.resolve(__dirname, "src", "html"),
           from: "**/erreur.html",
           to: "html",
         },
