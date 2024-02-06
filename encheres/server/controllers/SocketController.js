@@ -1,4 +1,4 @@
-import { Server as ServerIO } from "socket.io";
+import { Server } from 'socket.io';
 
 const AUCTION_ROOM = 'auction';
 
@@ -8,13 +8,13 @@ export default class SocketController {
     #bidders;
 
     constructor(server) {
-        this.#io = new ServerIO(server);
+        this.#io = new Server(server);
         this.#auctioneer = null;
         this.#bidders = new Map();
     }
 
     initController() {
-        this.#io.on("connection", socket => this.handleConnection(socket));
+        this.#io.on('connection', socket => this.handleConnection(socket));
     }
 
     handleConnection(socket) {

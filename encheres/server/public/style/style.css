@@ -1,10 +1,20 @@
 /* style.css */
 
 /* Styles pour l'en-tête */
-.auctionner-header {
+.encherisseur-header {
     text-align: center;
     background-color: #f0f0f0;
     padding: 20px;
+    background-image: url('../images/encherisseur.jpg');
+    color : white
+}
+
+.commissaire-header {
+    text-align: center;
+    background-color: #f0f0f0;
+    padding: 20px;
+    background-image: url('../images/commissaire2.jpg');
+    color : white
 }
 
 /* Styles pour les informations du commissaire-priseur */
@@ -36,19 +46,19 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    margin: 0 10px; /* Espace entre les boutons */
+    margin: 0 10px;
 }
 
 /* Style spécifique pour le bouton de démarrage */
 .button-start img {
-    width: 100px; /* Largeur de l'image */
-    height: auto; /* Hauteur ajustée automatiquement */
+    width: 50px;
+    height: 50px;
 }
 
 /* Style spécifique pour le bouton du commissaire */
 .button-commissaire img {
-    width: 50px; /* Largeur de l'image */
-    height: auto; /* Hauteur ajustée automatiquement */
+    width: 50px;
+    height: 50px;
 }
 
 /* Styles pour le lien de retour à l'accueil */
@@ -56,11 +66,14 @@
     text-align: center;
     margin-top: 20px;
 }
-/* style d'encherisseur */
+
+
+
+/*                                         style d'encherisseur                                              */
 
 /* Styles pour l'en-tête */
 header {
-    background-color: #f0f0f0;
+    background-color: #9D7153;
     padding: 20px;
     text-align: center;
 }
@@ -87,4 +100,8 @@ img {
    border: 1px solid #ccc;
    padding: 20px;
    border-radius: 10px;
+}
+
+.erreur{
+  background-color: black;
 }

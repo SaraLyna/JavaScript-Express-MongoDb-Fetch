@@ -41,7 +41,7 @@ export default class RequestController {
   async buildResponse() {
     if(this.url.pathname==='/'){
       try{
-        console.log(true);
+        //console.log(true);
         const data = await fs.readFile(`./public/html/about.html`);
         this.response.statusCode = 200;
         this.response.write(data);}

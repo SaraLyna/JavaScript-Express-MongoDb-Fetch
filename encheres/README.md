@@ -64,5 +64,7 @@ Ce fichier contient des informations telles que le nom du projet, la version, la
 - `npm install` coté server : crée le répertoire local node_modules, et installe les dépendances déclarées dans le fichier package.json du projet Node.js.
 - `npm run build` coté client seulement :  exécute un script spécifique défini dans le fichier package.json du projet Node.js. permettant ainsi d'automatiser le processus de construction de l'application.
 - `npm install socket.io` pour installer le package socket.io
-- pour lancer le server on peut utiliser la commande `nodemon` directement dans le dossier server ou il y a index.js
+- pour lancer le server on peut utiliser la commande `nodemon` directement dans le dossier server ou il y a index.js, et aller sur la page `http://localhost:8080`
 
+## Quelques précisions
+- le fichier SocketController.js s'occupe des différentes connections et déconnections.
