@@ -3,8 +3,9 @@
   @param path the path where to look for final extension
 */
 export const getContentTypeFrom = path => {
-  const lastPointPosition = path.lastIndexOf('.');
-  const extension = path.substring(lastPointPosition);
+  const filePath = path.pathname;
+  const lastPointPosition = filePath.lastIndexOf('.');
+  const extension = filePath.substring(lastPointPosition);
   return  contentTypes.get(extension) || '';
 }
 

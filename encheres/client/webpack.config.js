@@ -8,8 +8,8 @@ const PRODUCTION = false;
 module.exports = {
 
   entry: {                         
-    'commissaire-priseur': path.resolve(__dirname, 'src/scripts', 'commissaire-priseur.js'),
-    'encherisseur' : path.resolve(__dirname, 'src/scripts', 'encherisseur.js')
+    commissaire: path.resolve(__dirname, 'src','scripts', 'commissaire-priseur.js'),
+    encherisseur : path.resolve(__dirname, 'src','scripts', 'encherisseur.js')
   },
 
   output: {
@@ -58,7 +58,6 @@ module.exports = {
 
 
   plugins: [
-    new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
         template: "./src/html/commissaire-priseur.html",
         filename: "../public/html/commissaire-priseur.html",
@@ -75,7 +74,7 @@ module.exports = {
       patterns: [
         {
           context: path.resolve(__dirname, "src", "scripts"),
-          from: "**/test.js",
+          from: "**/affichage.js",
           to: "scripts",
         },
         {

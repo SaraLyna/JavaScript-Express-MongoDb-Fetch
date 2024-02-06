@@ -16,7 +16,7 @@ export default class ResponseBuilder{
    this.#contentType = contentType;
   }
 
-  buildResponse() {
+  async buildResponse() {
     this.buildHeader();
     this.buildBody();
     this.buildFooter();
