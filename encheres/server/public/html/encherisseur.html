@@ -7,7 +7,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/encherisseur-bundle.js"></script>
     <link href="./style/style.css" rel="stylesheet" type="text/css"/>
-    <link rel="shortcut icon" type="ico" href="favicon.ico"/>
+    <link rel="shortcut icon" type="ico" href="./favicon.ico"/>
 <script defer src="../scripts/encherisseur-bundle.js"></script></head>
 <body>
   <header>
@@ -23,8 +23,13 @@
         <p>Mise aux enchères : <span id="time-remaining"></span></p>
         <p>Prix actuel : <span id="current-price"></span>€</p>
     </div>
+      <div class="bid-options">
+        <button data-amount="5">+5€</button>
+        <button data-amount="10">+10€</button>
+        <button data-amount="100">+100€</button>
+      </div>
     <div class="return-accueil">
-        <a href="./about">retour à l'accueil</a>
+        <a href="./">retour à l'accueil</a>
     </div>
   </main>
 </body>

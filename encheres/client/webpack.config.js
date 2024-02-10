@@ -7,7 +7,7 @@ const PRODUCTION = false;
 
 module.exports = {
 
-  entry: {                         
+  entry: {
     commissaire: path.resolve(__dirname, 'src','scripts', 'commissaire-priseur.js'),
     encherisseur : path.resolve(__dirname, 'src','scripts', 'encherisseur.js')
   },
@@ -16,11 +16,11 @@ module.exports = {
     path: path.resolve(__dirname, '../server/public'),
     filename: 'scripts/[name]-bundle.js'
   },
- 
+
   mode :  (PRODUCTION ? 'production' : 'development'),
   devtool : (PRODUCTION ? undefined : 'eval-source-map'),
 
-  
+
   devServer: {
     static: {
       publicPath: path.resolve(__dirname, "../public"),
@@ -73,18 +73,13 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          context: path.resolve(__dirname, "src", "scripts"),
-          from: "**/affichage.js",
-          to: "scripts",
-        },
-        {
           context: path.resolve(__dirname, "src", "html"),
           from: "**/about.html",
           to: "html",
         },
         {
           context: path.resolve(__dirname, "src", "html"),
-          from: "**/affichage.html",
+          from: "**/accueil.html",
           to: "html",
         },
         {

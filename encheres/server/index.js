@@ -9,10 +9,8 @@ const server = http.createServer(
 
 const io = new Server(server);
 const ioController = new SocketController(io);
+ioController.initController();
 
-io.on('connection', (socket) => {
-    console.log('Un nouveau client s\'est connecté');
-});
 io.on('connection', socket => ioController.handleConnection(socket) );
 
 

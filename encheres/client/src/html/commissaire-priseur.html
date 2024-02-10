@@ -7,7 +7,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="./scripts/commissaire-bundle.js"></script>
     <link href="./style/style.css" rel="stylesheet" type="text/css"/>
-    <link rel="shortcut icon" type="ico" href="favicon.ico"/>
+    <link rel="shortcut icon" type="ico" href="./favicon.ico"/>
 </head>
 <body>
   <header>
@@ -21,21 +21,21 @@
     </div>
     <div class="enchere-form">
       <div class="objet">
-        <label for="item">Objet aux enchères </label>
-        <input type="text" id="item" name="objet" placeholder="description">
+        <label for="objet">Objet aux enchères </label>
+        <input type="text" id="objet" name="objet" placeholder="description">
       </div>
       <div class="prix">
-        <label for="initialPrice">Prix de départ</label>
-        <input type="number" id="initialPrice" name="prix" min="0" max="1000" step="1" value="10">
+        <label for="prix">Prix de départ</label>
+        <input type="number" id="prix" name="prix" min="0" max="1000" step="1" value="10">
       </div>
       <div class="montant-actuel">
-        <span id="valeur">Montant actuel enchère </span>
+        <span id="montant-actuel">Montant actuel enchère </span>
       </div>
       <div class="buttons">
-        <button class="button-start" onclick="start()">
+        <button id="start-button" class="button-start">
             <img src="./images/start.jpg" alt="start">
         </button>
-        <button class="button-commissaire" onclick="end()">
+        <button id="end-button" class="button-commissaire">
             <img src="./images/commissaire.jpg" alt="commissaire">
         </button>
       </div>
@@ -43,7 +43,7 @@
 
     </div>
     <div class="retour-accueil">
-      <a href="./about">retour à l'accueil</a>
+      <a href="./">retour à l'accueil</a>
     </div>
   </main>
 </body>

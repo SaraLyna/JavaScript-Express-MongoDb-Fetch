@@ -1,17 +1,41 @@
-const socket = io();
-socket.on('connection', () => {
-        console.log('Connecté au serveur de sockets en tant qu\'enchérisseur');
-});
+    const socket = io();
+
+    socket.on('connected', () => {
+        document.getElementById('welcome-span').innerText = `Votre ID d'enchérisseur : ${socket.id}`;
+    });
+
+    socket.on('auctionStarted', (item, initialPrice) => {
+        document.getElementById('time-remaining').innerText = 'En cours';
+        document.getElementById('current-price').innerText = initialPrice + '€';
+    });
+
+    socket.on('bidReceived', (bidderId, amount) => {
+        console.log('Reçu : bidReceived', bidderId, amount);
+        document.getElementById('current-price').innerText = amount + '€';
+    });
+
+    socket.on('auctionEnded', () => {
+        console.log('Reçu : auctionEnded');
+        document.getElementById('time-remaining').innerText = 'Terminée';
+    });
+
+    socket.on('bidderLeft', () => {
+        alert("Un enchérisseur a quitté la vente.");
+    });
 
 
-socket.on('startAuction', (item, initialPrice) => {
-    console.log(`Les enchères pour ${item} ont commencé avec un prix de départ de ${initialPrice}€`);
-});
 
-socket.on('bid', (bidderId, amount) => {
-    console.log(`Nouvelle enchère de ${amount}€ de la part de l'enchérisseur ${bidderId}`);
-});
 
-socket.on('endAuction', () => {
-    console.log('La vente aux enchères est terminée');
-});
+    const bidButtons = document.querySelectorAll('.bid-options');
+
+    bidButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const amount = parseInt(this.dataset.amount);
+            placeBid(amount);
+        });
+    });
+
+
+    function placeBid(amount) {
+        socket.emit('bid', socket.id, amount);
+    }

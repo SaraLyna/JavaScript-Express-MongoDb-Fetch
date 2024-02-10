@@ -12,7 +12,7 @@ export default class RequestController {
 
 
 
-  constructor(request, response,io) {
+  constructor(request, response,io,staticFolderPath) {
     this.#request = request,
     this.#response = response;
     this.#url = new URL(request.url, `http://${request.headers.host}`);
@@ -34,7 +34,7 @@ export default class RequestController {
   async handleRequest() {
     this.#response.setHeader("Content-Type" , getContentTypeFrom(this.#url) );
     await this.buildResponse();
-    this.response.end();
+    this.#response.end();
 
   }
 
@@ -42,7 +42,7 @@ export default class RequestController {
     if(this.url.pathname==='/'){
       try{
         //console.log(true);
-        const data = await fs.readFile(`./public/html/about.html`);
+        const data = await fs.readFile(`./public/html/accueil.html`);
         this.response.statusCode = 200;
         this.response.write(data);}
         catch(err) {
@@ -57,7 +57,7 @@ export default class RequestController {
       this.response.statusCode = 200;
       this.response.write(data);}
       catch(err) {
-        const data1 = await fs.readFile(`./public/html/encherisseur.html`);
+        const data1 = await fs.readFile(`./public/html/about.html`);
         this.response.statusCode = 404;
         this.response.write(data1);
       }
