@@ -49,14 +49,21 @@ export default class SocketController {
     }
 
     handleStartAuction(socket, item, initialPrice) {
+	console.log(`StartAuction recieved for ${item} with intial price ${initialPrice} `);
+
         if (this.#auctioneer && this.#auctioneer.id === socket.id) {
             this.#io.to(AUCTION_ROOM).emit('auctionStarted', item, initialPrice);
+	    	console.log(`auctionStarted emitted for ${item} with intial price ${initialPrice} `);
+
         }
     }
 
     handleBid(socket, bidderId, amount) {
+	console.log(`handleBid offer recieved ${amount} from ${bidderId} `);
         if (this.#auctioneer && bidderId !== this.#auctioneer.id) {
             this.#io.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
+	    console.log(`bidRecieved sent ${amount} from ${bidderId} `);
+
         }
     }
 

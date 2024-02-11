@@ -61,7 +61,7 @@ module.exports = {
     new HtmlWebpackPlugin({
         template: "./src/html/commissaire-priseur.html",
         filename: "../public/html/commissaire-priseur.html",
-        chunks : ['commissaire-priseur']
+        chunks : ['commissaire']
     }),
 
     new HtmlWebpackPlugin({
