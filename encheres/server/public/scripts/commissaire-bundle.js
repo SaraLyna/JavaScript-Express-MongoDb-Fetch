@@ -15,15 +15,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const item = document.getElementById('objet').value;
         const initialPrice = document.getElementById('prix').value;
         socket.emit('startAuction', item, initialPrice);
+	console.log("fonction start fonctionne");
     }
 
     function end() {
         socket.emit('endAuction');
+	console.log("fonctionne");
     }
 
     setup();
 
-
+});
 
     const socket = io();
     socket.on('connected', () => {
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     });
 
-});
+
 
 /******/ })()
 ;

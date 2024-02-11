@@ -31,9 +31,11 @@ export default class SocketController {
             if (this.#auctioneer && this.#auctioneer.id === socket.id) {
                 this.#auctioneer = null;
                 this.#io.to(AUCTION_ROOM).emit('auctioneerLeft');
+		console.log("Le commissaire-priseur a quitté la vente.");
             } else if (this.#bidders.has(socket.id)) {
                 this.#bidders.delete(socket.id);
                 this.#io.to(AUCTION_ROOM).emit('bidderLeft');
+		console.log("Un enchérisseur a quitté la vente.");
             }
         });
     }
@@ -43,8 +45,10 @@ export default class SocketController {
             this.#auctioneer = { id: socket.id };
             socket.join(AUCTION_ROOM);
             socket.emit('auctioneerJoined');
+		console.log("le commissaire est la");
         } else {
             socket.emit('auctionAlreadyInProgress');
+		console.log("Il y a déjà un commissaire-priseur.");
         }
     }
 
@@ -71,6 +75,7 @@ export default class SocketController {
         if (this.#auctioneer && this.#auctioneer.id === socket.id) {
             this.#io.to(AUCTION_ROOM).emit('auctionEnded');
             this.#auctioneer = null;
+		 console.log("Les enchères sont terminées.");
         }
     }
 }
