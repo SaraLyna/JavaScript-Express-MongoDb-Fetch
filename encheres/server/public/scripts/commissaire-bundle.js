@@ -1,32 +1,69 @@
-/*
- * ATTENTION: An "eval-source-map" devtool has been used.
- * This devtool is neither made for production nor for readable output files.
- * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
- * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
- * or disable the default devtool with "devtool: false".
- * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
- */
 /******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./src/scripts/commissaire-priseur.js":
+var __webpack_exports__ = {};
 /*!********************************************!*\
   !*** ./src/scripts/commissaire-priseur.js ***!
   \********************************************/
-/***/ (() => {
+document.addEventListener('DOMContentLoaded', function() {
 
-eval("document.addEventListener('DOMContentLoaded', function() {\r\n    function setup() {\r\n        document.getElementById('start-button').addEventListener('click', startAuction);\r\n        document.getElementById('end-button').addEventListener('click', endAuction);\r\n    }\r\n\r\n    function startAuction() {\r\n        const item = document.getElementById('objet').value;\r\n        const initialPrice = document.getElementById('prix').value;\r\n        socket.emit('startAuction', item, initialPrice);\r\n    }\r\n\r\n    function endAuction() {\r\n        socket.emit('endAuction');\r\n    }\r\n\r\n    setup();\r\n});\r\n\r\n\r\nconst socket = io();\r\n\r\n    socket.on('connected', () => {\r\n        console.log('Connecté au serveur de sockets en tant que commissaire-priseur');\r\n        document.getElementById('commissaire-info').innerText = `Vous etes connecté en tant que commissaire-priseur`;\r\n    });\r\n\r\n    socket.on('auctioneerJoined', () => {\r\n        document.getElementById('commissaire-info').innerText = \"Vous êtes le commissaire priseur.\";\r\n    });\r\n\r\n    socket.on('auctionAlreadyInProgress', () => {\r\n        document.getElementById('commissaire-info').innerText = \"Il y a déja un commissaire-priseur.\";\r\n    });\r\n\r\n    socket.on('auctionStarted', (item, initialPrice) => {\r\n        document.getElementById('montant-actuel').innerText = `Montant actuel enchère : ${initialPrice}€`;\r\n    });\r\n\r\n    socket.on('auctionEnded', () => {\r\n        document.getElementById('montant-actuel').innerText = \"Enchère terminée\";\r\n    });\r\n\r\n    socket.on('auctioneerLeft', () => {\r\n        document.getElementById('commissaire-info').innerText = \"Le commissaire priseur a quitté la vente.\";\r\n    });\r\n\r\n    // socket.on('bidReceived', (bidderId, amount) => {\r\n    //\r\n    // });\r\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9zcmMvc2NyaXB0cy9jb21taXNzYWlyZS1wcmlzZXVyLmpzIiwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxDQUFDO0FBQ0Q7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQTtBQUNBO0FBQ0EsS0FBSztBQUNMO0FBQ0E7QUFDQTtBQUNBLEtBQUs7QUFDTDtBQUNBO0FBQ0EsMEZBQTBGLGFBQWE7QUFDdkcsS0FBSztBQUNMO0FBQ0E7QUFDQTtBQUNBLEtBQUs7QUFDTDtBQUNBO0FBQ0E7QUFDQSxLQUFLO0FBQ0w7QUFDQTtBQUNBO0FBQ0EsUUFBUSIsInNvdXJjZXMiOlsid2VicGFjazovL2NsaWVudC1hcHAvLi9zcmMvc2NyaXB0cy9jb21taXNzYWlyZS1wcmlzZXVyLmpzPzY0NTciXSwic291cmNlc0NvbnRlbnQiOlsiZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKCkge1xyXG4gICAgZnVuY3Rpb24gc2V0dXAoKSB7XHJcbiAgICAgICAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3N0YXJ0LWJ1dHRvbicpLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgc3RhcnRBdWN0aW9uKTtcclxuICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnZW5kLWJ1dHRvbicpLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgZW5kQXVjdGlvbik7XHJcbiAgICB9XHJcblxyXG4gICAgZnVuY3Rpb24gc3RhcnRBdWN0aW9uKCkge1xyXG4gICAgICAgIGNvbnN0IGl0ZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnb2JqZXQnKS52YWx1ZTtcclxuICAgICAgICBjb25zdCBpbml0aWFsUHJpY2UgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncHJpeCcpLnZhbHVlO1xyXG4gICAgICAgIHNvY2tldC5lbWl0KCdzdGFydEF1Y3Rpb24nLCBpdGVtLCBpbml0aWFsUHJpY2UpO1xyXG4gICAgfVxyXG5cclxuICAgIGZ1bmN0aW9uIGVuZEF1Y3Rpb24oKSB7XHJcbiAgICAgICAgc29ja2V0LmVtaXQoJ2VuZEF1Y3Rpb24nKTtcclxuICAgIH1cclxuXHJcbiAgICBzZXR1cCgpO1xyXG59KTtcclxuXHJcblxyXG5jb25zdCBzb2NrZXQgPSBpbygpO1xyXG5cclxuICAgIHNvY2tldC5vbignY29ubmVjdGVkJywgKCkgPT4ge1xyXG4gICAgICAgIGNvbnNvbGUubG9nKCdDb25uZWN0w6kgYXUgc2VydmV1ciBkZSBzb2NrZXRzIGVuIHRhbnQgcXVlIGNvbW1pc3NhaXJlLXByaXNldXInKTtcclxuICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29tbWlzc2FpcmUtaW5mbycpLmlubmVyVGV4dCA9IGBWb3VzIGV0ZXMgY29ubmVjdMOpIGVuIHRhbnQgcXVlIGNvbW1pc3NhaXJlLXByaXNldXJgO1xyXG4gICAgfSk7XHJcblxyXG4gICAgc29ja2V0Lm9uKCdhdWN0aW9uZWVySm9pbmVkJywgKCkgPT4ge1xyXG4gICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdjb21taXNzYWlyZS1pbmZvJykuaW5uZXJUZXh0ID0gXCJWb3VzIMOqdGVzIGxlIGNvbW1pc3NhaXJlIHByaXNldXIuXCI7XHJcbiAgICB9KTtcclxuXHJcbiAgICBzb2NrZXQub24oJ2F1Y3Rpb25BbHJlYWR5SW5Qcm9ncmVzcycsICgpID0+IHtcclxuICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29tbWlzc2FpcmUtaW5mbycpLmlubmVyVGV4dCA9IFwiSWwgeSBhIGTDqWphIHVuIGNvbW1pc3NhaXJlLXByaXNldXIuXCI7XHJcbiAgICB9KTtcclxuXHJcbiAgICBzb2NrZXQub24oJ2F1Y3Rpb25TdGFydGVkJywgKGl0ZW0sIGluaXRpYWxQcmljZSkgPT4ge1xyXG4gICAgICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdtb250YW50LWFjdHVlbCcpLmlubmVyVGV4dCA9IGBNb250YW50IGFjdHVlbCBlbmNow6hyZSA6ICR7aW5pdGlhbFByaWNlfeKCrGA7XHJcbiAgICB9KTtcclxuXHJcbiAgICBzb2NrZXQub24oJ2F1Y3Rpb25FbmRlZCcsICgpID0+IHtcclxuICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnbW9udGFudC1hY3R1ZWwnKS5pbm5lclRleHQgPSBcIkVuY2jDqHJlIHRlcm1pbsOpZVwiO1xyXG4gICAgfSk7XHJcblxyXG4gICAgc29ja2V0Lm9uKCdhdWN0aW9uZWVyTGVmdCcsICgpID0+IHtcclxuICAgICAgICBkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY29tbWlzc2FpcmUtaW5mbycpLmlubmVyVGV4dCA9IFwiTGUgY29tbWlzc2FpcmUgcHJpc2V1ciBhIHF1aXR0w6kgbGEgdmVudGUuXCI7XHJcbiAgICB9KTtcclxuXHJcbiAgICAvLyBzb2NrZXQub24oJ2JpZFJlY2VpdmVkJywgKGJpZGRlcklkLCBhbW91bnQpID0+IHtcclxuICAgIC8vXHJcbiAgICAvLyB9KTtcclxuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///./src/scripts/commissaire-priseur.js\n");
+    
+    function setup() {
+        document.getElementById('start-button').addEventListener('click', start);
+        document.getElementById('end-button').addEventListener('click', end);
+    }
 
-/***/ })
+    function start() {
+        const item = document.getElementById('objet').value;
+        const initialPrice = document.getElementById('prix').value;
+        socket.emit('startAuction', item, initialPrice);
+    }
 
-/******/ 	});
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval-source-map devtool is used.
-/******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/scripts/commissaire-priseur.js"]();
-/******/ 	
+    function end() {
+        socket.emit('endAuction');
+    }
+
+    setup();
+
+
+
+    const socket = io();
+    socket.on('connected', () => {
+        console.log('Connecté au serveur de sockets en tant que commissaire-priseur');
+        document.getElementById('commissaire-info').innerText = `Vous etes connecté en tant que commissaire-priseur`;
+    });
+
+    socket.on('auctioneerJoined', () => {
+        console.log("le commissaire a rejoint les enchères");
+        document.getElementById('commissaire-info').innerText = `Vous êtes le commissaire priseur n°1.`;
+    });
+
+    socket.on('auctionAlreadyInProgress', () => {
+        console.log("Il y a déja un commissaire-priseur.");
+        document.getElementById('commissaire-info').innerText = `Il y a déja un commissaire-priseur.`;
+    });
+
+    socket.on('auctionStarted', (item, initialPrice) => {
+	console.log("initialisation du montant");
+        document.getElementById('montant-actuel').innerText = `Montant actuel enchère : ${initialPrice}€`;
+    });
+
+    socket.on('auctionEnded', () => {
+	console.log("fini");
+        document.getElementById('montant-actuel').innerText = `Vente aux enchères terminée`;
+    });
+
+    socket.on('auctioneerLeft', () => {
+	console.log("commissaire parti");
+        document.getElementById('commissaire-info').innerText = `Le commissaire priseur a quitté la vente.`;
+    });
+
+    socket.on('bidReceived', (bidderId, amount) => {
+	console.log("montant estimé");
+        document.getElementById('montant-actuel').innerText = `Montant actuel estimé : ${initialPrice}€`;
+    
+    });
+
+});
+
 /******/ })()
 ;
+//# sourceMappingURL=commissaire-bundle.js.map

@@ -18,7 +18,7 @@ module.exports = {
   },
 
   mode :  (PRODUCTION ? 'production' : 'development'),
-  devtool : (PRODUCTION ? undefined : 'eval-source-map'),
+  devtool : 'source-map',
 
 
   devServer: {
