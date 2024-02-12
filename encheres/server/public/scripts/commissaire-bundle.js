@@ -43,7 +43,7 @@ socket.on('auctioneerJoined', () => {
 socket.on('auctionAlreadyInProgress', () => {
     console.log("Il y a déja un commissaire-priseur.");
     document.getElementById('commissaire-info').innerText = `Il y a déja un commissaire-priseur.`;
-    const encheresForm = document.getElementById('encheres-form');
+    const encheresForm = document.getElementById('enchere-form');
     if (encheresForm) {
         encheresForm.remove();
     }
@@ -66,7 +66,7 @@ socket.on('auctioneerLeft', () => {
 
 socket.on('bidReceived', (bidderId, amount) => {
     console.log("montant estimé");
-    document.getElementById('montant-actuel').innerText = `Montant actuel estimé : ${initialPrice}€`;
+    document.getElementById('montant-actuel').innerText = `Montant actuel estimé : ${amount}€`;
     
 });
 

@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const socket = io();
 
-socket.on('connected', () => {
+socket.on('connected', (socket) => {
 	console.log("Connecté au serveur de sockets en tant qu'enchérisseur");
-    document.getElementById('welcome-span').innerText = `Votre ID d'enchérisseur : ${socket.id}`;
+    document.getElementById('welcome-span').innerText = `Votre ID d'enchérisseur : ${socket}`;
 });
 
 socket.on('auctionStarted', (item, initialPrice) => {
-	console.log("debut");
-    document.getElementById('time-remaining').innerText = `En cours`;
+	console.log("Début de l'enchère pour l'objet :", item);
+    document.getElementById(`time-remaining`).innerText = `En cours`;
     document.getElementById('current-price').innerText = initialPrice + `€`;
     document.getElementById('bid-options').style.display = 'block';
 });

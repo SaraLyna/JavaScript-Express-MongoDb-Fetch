@@ -29,7 +29,7 @@ export default class SocketController {
 	
         socket.on('disconnect', () => {
             if (this.#auctioneer.id === socket.id) {
-                this.#auctioneer.id = null;
+                this.#auctioneer = null;
                 this.#io.to(AUCTION_ROOM).emit('auctioneerLeft');
 		        console.log("Le commissaire-priseur a quitté la vente.");
             } else if (this.#bidders.has(socket.id)) {
@@ -56,7 +56,7 @@ export default class SocketController {
     handleStartAuction(socket, item, initialPrice) {
         if (this.#auctioneer === socket) {
             socket.emit('auctionStarted', item, initialPrice);
-            this.#io.to(AUCTION_ROOM).emit('auctionStarted', item, initialPrice);
+            socket.to(AUCTION_ROOM).emit('auctionStarted', item, initialPrice);
 	        console.log(`auctionStarted emitted for ${item} with intial price ${initialPrice} `);
 
         }else {
@@ -68,14 +68,14 @@ export default class SocketController {
     handleBid(socket, bidderId, amount) {
         if (socket.id !== bidderId) {
             socket.emit('bidReceived', bidderId, amount);
-            this.#io.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
+            socket.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
 	        console.log(`bidRecieved sent ${amount} from ${bidderId} `);
         }
     }
 
     handleEndAuction(socket) {
-        if (this.#auctioneer.id === socket.id) {
-            this.#auctioneer.id = null;
+        if (this.#auctioneer === socket) {
+            this.#auctioneer = null;
             this.#io.to(AUCTION_ROOM).emit('auctionEnded');
 	        console.log("Les enchères sont terminées.");
         } else {
