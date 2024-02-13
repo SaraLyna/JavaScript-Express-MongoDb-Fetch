@@ -66,6 +66,10 @@ export default class SocketController {
 
     handleStartAuction(socket, item, initialPrice) {
         if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+            this.#bidders.forEach((s) => {
+                s.emit('auctionStarted', item, initialPrice);
+            })
+            this.#auctioneer.emit('auctionStarted', item, initialPrice);
             socket.to(AUCTION_ROOM).emit('auctionStarted', item, initialPrice);
             console.log(`Début de l'enchère pour l'objet : ${item}, Prix initial : ${initialPrice}`);
         } else {
@@ -78,7 +82,7 @@ export default class SocketController {
         if (this.#bidders.has(socket.id)) {
             if (bidderId && amount !== null && amount !== undefined) {
                 this.#io.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
-                this.#io.to(AUCTION_ROOM).emit('bidConfirmed');
+                this.#auctioneer.emit('bidConfirmed', bidderId, amount);
                 console.log(`Enchère de ${amount} de la part de ${bidderId}.`);
             } else {
                 console.log("Erreur : Données d'enchère invalides.");
@@ -87,6 +91,7 @@ export default class SocketController {
             console.log("Vous n'êtes pas autorisé à enchérir.");
         }
     }
+    
     
 
     handleEndAuction(socket) {

@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     socket.emit('bidder');
+    let currentPrice;
 
     socket.on('connected', (socketId) => {
         bidderId = socketId;
@@ -28,16 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('current-price').innerText = initialPrice + '€';
         document.getElementById('bid-options').style.display = 'block';
 
+        currentPrice = parseInt(initialPrice);
+
         auctionInProgress = true;
         updateWelcomeSpan(item, initialPrice);
     });
 
     socket.on('bidReceived', (bidderId, amount) => {
-        const currentPrice = parseInt(document.getElementById('current-price').innerText);
+        const currentPriceElement = document.getElementById('current-price');
         const newPrice = currentPrice + amount;
-        document.getElementById('current-price').innerText = `${newPrice}€`;
-        console.log(`Montant actuel estimé : ${newPrice}€ par ${bidderId}`);
-        updateWelcomeSpan(null, newPrice);
+        currentPriceElement.innerText = `${newPrice}€`;
+        console.log(`Montant actuel estimé : ${currentPrice}€ par ${bidderId}`); 
+        currentPrice = newPrice; 
+        updateWelcomeSpan(null, currentPrice);
     });
 
     socket.on('auctionEnded', () => {
@@ -50,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     socket.on('bidderLeft', () => {
         alert("Un enchérisseur a quitté la vente.");
+    });
+
+    socket.on('auctioneerLeft', () => {
+        console.log("Commissaire parti");
+        document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
     });
 
 
@@ -75,13 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function placeBid(socket, bidderId, amount) {
         socket.emit('bid', bidderId, amount);
-
-        socket.on('bidConfirmed', () => {
-            const currentPrice = parseInt(document.getElementById('current-price').innerText);
-            const newPrice = currentPrice + amount;
-            document.getElementById('current-price').innerText = `${newPrice}€`;
-            document.getElementById('welcome-span').innerText = `Votre ID d'enchérisseur : ${bidderId}, Prix actuel : ${newPrice}€`;
-        });
     }
 
     setup();
