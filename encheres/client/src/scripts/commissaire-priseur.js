@@ -68,22 +68,40 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('commissaire-info').innerText = `Offre confirmée : ${amount}€ de la part de ${bidderId}.`;
     });
 
+    socket.on('winner', (bidderId, currentBid) => {
+        const currentPriceElement = document.getElementById('montant-actuel');
+        currentBid = parseInt(currentPriceElement.innerText);
+        document.getElementById('commissaire-info').innerText ="Le gagnant de l'enchère est ${bidderId} avec une offre de ${currentBid}€.";
+        //alert(`Le gagnant de l'enchère est ${bidderId} avec une offre de ${currentBid}€.`);
+    });
 
-    socket.on('auctionEndededForBidders', () => {
+
+    socket.on('auctionEndedForBidders', () => {
         alert("Les enchères sont terminées.");
         auctionInProgress = false;
-        document.getElementById('montant-actuel').innerText = 'Vente terminée';
+        document.getElementById('commissaire-info').innerText = 'Vente terminée';
+        const encheresForm = document.getElementById('enchere-form');
+        if (encheresForm) {
+            encheresForm.remove();
+        }
+    });
+    socket.on('auctionEndedWithoutWinner', () => {
+        document.getElementById('commissaire-info').innerText = "La vente aux enchères est terminée sans gagnant.";
+        alert("La vente aux enchères est terminée sans gagnant.");
+        const encheresForm = document.getElementById('enchere-form');
+        if (encheresForm) {
+            encheresForm.remove();
+        }
     });
 
-    socket.on('winner', () => {
-        alert("Vous avez remporté la vente aux enchères !");
-    });
+
 
     socket.on('auctioneerLeft', () => {
-        document.getElementById('commissaire-info').innerText = `Le commissaire priseur a quitté la vente.`;
+        console.log("le comissaire est parti");
         alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
-        document.getElementById('montant-actuel').innerText = 'Vente terminée';
+        //document.getElementById('montant-actuel').innerText = 'Vente terminée';
     });
+
 
 
 });

@@ -46,9 +46,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
+    socket.on('winner', (bidderId,currentBid) => {
+        console.log("vous etes le gagnant de l'enchere");
+        const currentPriceElement = document.getElementById('current-price');
+        currentBid = parseInt(currentPriceElement.innerText);
+        document.getElementById('welcome-span').innerText = `Félicitations, vous l'avez emportée !! `;
+        alert(`Félicitations, vous avez remporté l'enchère avec une offre de ${currentBid}€.`);
+        const bidButtons = document.querySelectorAll('.bid-options button');
+        bidButtons.forEach(button => {
+            button.disabled = true;
+        });
+        document.getElementById('time-remaining').innerText = 'Vente aux enchères terminée';
+        document.getElementById('current-price').innerText = '-';
+    });
 
 
-    socket.on('auctionEndedForBidders', () => {
+
+
+    socket.on('auctionEndedForBidders',() => {
         alert("La vente aux enchères est terminée. Vous ne pouvez plus soumettre d'offres.");
         document.getElementById('time-remaining').innerText = 'Vente aux enchères terminée';
         document.getElementById('current-price').innerText = '-';
@@ -57,18 +72,23 @@ document.addEventListener('DOMContentLoaded', function() {
             button.disabled = true;
         });
         auctionInProgress = false;
-        updateWelcomeSpan('Aucune enchère en cours', null);
+        document.getElementById('welcome-span').innerText = "La vente aux enchères est terminée. Le gagnant est ${bidderId} avec une offre de ${currentBid}€.";
+        //updateWelcomeSpan('Aucune enchère en cours', null);
     });
 
-    socket.on('updateBidAmount', (amount) => {
-        console.log("gagnant de l'enchere");
-        const currentPriceElement = document.getElementById('current-price');
-        currentPriceElement.innerText = `${amount}€`;
-        document.getElementById('welcome-span').innerText = `Vous l'avez emportée !! `;
+    socket.on('auctionEndedWithoutWinner', () => {
+        document.getElementById('welcome-span').innerText = "La vente aux enchères est terminée sans gagnant.";
+        alert("La vente aux enchères est terminée sans gagnant.");
+        const bidButtons = document.querySelectorAll('.bid-options button');
+        bidButtons.forEach(button => {
+            button.disabled = true;
+        });
     });
 
 
-    socket.on('auctioneerLeft', () => {
+
+
+    socket.on('auctioneerLeft', (auctioneerId) => {
         document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
         alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
         const bidButtons = document.querySelectorAll('.bid-options button');
@@ -77,10 +97,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    
+
     socket.on('bidderLeft', () => {
         alert("Un enchérisseur a quitté la vente.");
     });
+
 
 
 

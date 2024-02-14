@@ -35,20 +35,19 @@ export default class SocketController {
           socket.broadcast.emit('bidReceived', bidderId, amount);
           this.#currentSocketOffer = socket;
         });
-        //socket.on('currentBid', (currentBid) => this.#currentPrice = currentBid);
-        socket.on('endAuction', () => this.handleEndAuction());
-
-
-
+        socket.on('currentBid', (currentBid) => this.#currentPrice = currentBid);
+        socket.on('endAuction', (bidderId) => {
+          this.handleEndAuction(bidderId);
+        });
         socket.on('disconnect', () => {
             if (this.#auctioneer && this.#auctioneer.id === socket.id) {
                 this.#auctioneer = null;
-                this.#io.to(AUCTION_ROOM).emit('auctioneerLeft');
-		            console.log("Le commissaire-priseur a quitté la vente.");
+                this.#io.to(AUCTION_ROOM).emit('auctioneerLeft', socket.id);
+                console.log("Le commissaire-priseur a quitté la vente.");
             } else if (this.#bidders.has(socket.id)) {
                 this.#bidders.delete(socket.id);
                 this.#io.to(AUCTION_ROOM).emit('bidderLeft');
-		            console.log("Un enchérisseur a quitté la vente.");
+                console.log("Un enchérisseur a quitté la vente.");
             }
         });
     }
@@ -110,7 +109,7 @@ export default class SocketController {
 
 
 
-    handleEndAuction() {
+    handleEndAuction(bidderId) {
         /* if (this.#auctioneer && this.#auctioneer.id === socket.id) {
             this.#auctioneer = null;
             this.#io.to(AUCTION_ROOM).emit('auctionEndededForBidders');
@@ -118,13 +117,24 @@ export default class SocketController {
         } else {
             console.log("Vous n'êtes pas le commissaire-priseur et vous ne pouvez pas terminer la vente aux enchères.");
         } */
+        if(! this.#started){
+          return;
+        }
         if (this.#currentSocketOffer) {
-            this.#currentSocketOffer.emit('winner');
+            this.#currentSocketOffer.to(AUCTION_ROOM).emit('winner', bidderId, this.#currentPrice);
+            this.#currentSocketOffer.emit('auctionEndedForBidders');
+            this.#currentSocketOffer = null;
+        } else {
+            this.#io.to(AUCTION_ROOM).emit('auctionEndedWithoutWinner');
         }
         if (this.#started) {
-            this.#io.to(AUCTION_ROOM).emit('auctionEndededForBidders');
-            this.#started = false;
-            this.#currentSocketOffer = null;
+          if (this.#auctioneer) {
+              this.#auctioneer.emit('auctionEndedForBidders');
+          }
+          this.#io.to(AUCTION_ROOM).emit('auctionEndedForBidders');
+          this.#started = false;
+          this.#currentSocketOffer = null;
+          this.#currentPrice = null;
         }
       }
 }
