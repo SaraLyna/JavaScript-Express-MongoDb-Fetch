@@ -6,12 +6,18 @@ export default class SocketController {
     #io;
     #auctioneer;
     #bidders;
+    #started;
+    #currentSocketOffer;
+    #currentPrice;
 
     constructor(server) {
         this.#io = new Server(server);
         this.#auctioneer = null;
         this.#bidders = new Map();
-    }
+        this.#started = false;
+        this.#currentSocketOffer = null;
+        this.#currentPrice = null;
+     }
 
     initController() {
         this.#io.on('connection', socket => this.handleConnection(socket));
@@ -19,28 +25,32 @@ export default class SocketController {
 
     handleConnection(socket) {
         console.log(`Nouvelle connexion avec l'ID ${socket.id}`);
-    
+
         socket.emit('connected', socket.id);
         socket.on('bidder',() => this.handleJoinBidder(socket) );
         socket.on('auctioneer',() => this.handleJoinAuction(socket) );
 
         socket.on('startAuction', (item, initialPrice) => this.handleStartAuction(socket, item, initialPrice));
-        socket.on('bid', (bidderId, amount) => this.handleBid(socket, bidderId, amount));
-        socket.on('endAuction', () => this.handleEndAuction(socket));
+        socket.on('bid', (bidderId, amount) =>{
+          socket.broadcast.emit('bidReceived', bidderId, amount);
+          this.#currentSocketOffer = socket;
+        });
+        //socket.on('currentBid', (currentBid) => this.#currentPrice = currentBid);
+        socket.on('endAuction', () => this.handleEndAuction());
 
 
-	
+
         socket.on('disconnect', () => {
             if (this.#auctioneer && this.#auctioneer.id === socket.id) {
                 this.#auctioneer = null;
                 this.#io.to(AUCTION_ROOM).emit('auctioneerLeft');
-		        console.log("Le commissaire-priseur a quitté la vente.");
+		            console.log("Le commissaire-priseur a quitté la vente.");
             } else if (this.#bidders.has(socket.id)) {
                 this.#bidders.delete(socket.id);
                 this.#io.to(AUCTION_ROOM).emit('bidderLeft');
-		        console.log("Un enchérisseur a quitté la vente.");
+		            console.log("Un enchérisseur a quitté la vente.");
             }
-        });  
+        });
     }
 
     handleJoinAuction(socket) {
@@ -55,17 +65,23 @@ export default class SocketController {
         }
     }
 
-    
-    handleJoinBidder(socket) {       
+
+    handleJoinBidder(socket) {
+      if(this.#started){
+        socket.emit('startBidder');
+        console.log("Un enchérisseur est en attente.");
+      } else{
          this.#bidders.set(socket.id,socket);
          socket.join(AUCTION_ROOM);
-         console.log("je suis un encherisseur !") ;
          socket.emit('joinBidder');
-          
+         console.log("je suis un encherisseur !") ;
+       }
+
     }
 
     handleStartAuction(socket, item, initialPrice) {
         if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+            this.#started = true;
             this.#bidders.forEach((s) => {
                 s.emit('auctionStarted', item, initialPrice);
             })
@@ -78,9 +94,9 @@ export default class SocketController {
         }
     }
 
-    handleBid(socket, bidderId, amount) {
-        if (this.#bidders.has(socket.id)) {
-            if (bidderId && amount !== null && amount !== undefined) {
+    /* handleBid(bidderId, amount) {
+         if (this.#bidders.has(bidderId)) {
+            if (amount !== null && amount !== undefined) {
                 this.#io.to(AUCTION_ROOM).emit('bidReceived', bidderId, amount);
                 this.#auctioneer.emit('bidConfirmed', bidderId, amount);
                 console.log(`Enchère de ${amount} de la part de ${bidderId}.`);
@@ -90,17 +106,25 @@ export default class SocketController {
         } else {
             console.log("Vous n'êtes pas autorisé à enchérir.");
         }
-    }
-    
-    
+    } */
 
-    handleEndAuction(socket) {
-        if (this.#auctioneer) {
+
+
+    handleEndAuction() {
+        /* if (this.#auctioneer && this.#auctioneer.id === socket.id) {
             this.#auctioneer = null;
-            this.#io.to(AUCTION_ROOM).emit('auctionEnded');
+            this.#io.to(AUCTION_ROOM).emit('auctionEndededForBidders');
 	        console.log("Les enchères sont terminées.");
         } else {
             console.log("Vous n'êtes pas le commissaire-priseur et vous ne pouvez pas terminer la vente aux enchères.");
+        } */
+        if (this.#currentSocketOffer) {
+            this.#currentSocketOffer.emit('winner');
         }
-    }
+        if (this.#started) {
+            this.#io.to(AUCTION_ROOM).emit('auctionEndededForBidders');
+            this.#started = false;
+            this.#currentSocketOffer = null;
+        }
+      }
 }

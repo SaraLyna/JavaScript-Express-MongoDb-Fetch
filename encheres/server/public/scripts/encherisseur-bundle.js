@@ -4,13 +4,11 @@ var __webpack_exports__ = {};
   !*** ./src/scripts/encherisseur.js ***!
   \*************************************/
 document.addEventListener('DOMContentLoaded', function() {
-    const socket = io();
     let bidderId;
     let auctionInProgress = false;
 
-
+    const socket = io();
     socket.emit('bidder');
-    let currentPrice;
 
     socket.on('connected', (socketId) => {
         bidderId = socketId;
@@ -20,55 +18,88 @@ document.addEventListener('DOMContentLoaded', function() {
 
     socket.on('joinBidder', () => {
         console.log("Un enchérisseur a rejoint les enchères");
-        document.getElementById('welcome-span').innerText = `Vous pouvez commencer à enchérir`;
+        document.getElementById('welcome-span').innerText = `Vous pouvez commencer à enchérir.`;
+    });
+
+    socket.on('startBidder', () =>{
+      console.log("Un enchérisseur est en attente.");
+      document.getElementById('welcome-span').innerText = ` Une vente aux enchères est déjà en cours. Veuillez attendre qu'elle soit terminée.`;
+      document.getElementById('time-remaining').innerText = 'en attente';
+      document.getElementById('current-price').innerText = '-€';
+      return;
     });
 
     socket.on('auctionStarted', (item, initialPrice) => {
+        if (auctionInProgress) {
+            console.log("Une vente a été commencée.");
+            return;
+        }
+        auctionInProgress = true;
         console.log("Début de l'enchère pour l'objet :", item);
-        document.getElementById('time-remaining').innerText = 'En cours';
+        document.getElementById('time-remaining').innerText = item;
         document.getElementById('current-price').innerText = initialPrice + '€';
         document.getElementById('bid-options').style.display = 'block';
 
-        currentPrice = parseInt(initialPrice);
-
-        auctionInProgress = true;
         updateWelcomeSpan(item, initialPrice);
     });
 
-    socket.on('bidReceived', (bidderId, amount) => {
-        const currentPriceElement = document.getElementById('current-price');
-        const newPrice = currentPrice + amount;
-        currentPriceElement.innerText = `${newPrice}€`;
-        console.log(`Montant actuel estimé : ${currentPrice}€ par ${bidderId}`); 
-        currentPrice = newPrice; 
-        updateWelcomeSpan(null, currentPrice);
+    socket.on('bidReceived', (bidderId, amount) =>{
+      const current = document.getElementById('current-price');
+      let currentPriceValue = parseInt(current.innerText);
+      currentPriceValue += parseInt(amount);
+      current.innerText = currentPriceValue;
+
     });
 
-    socket.on('auctionEnded', () => {
-        console.log('Reçu : auctionEnded');
+
+
+    socket.on('auctionEndedForBidders', () => {
+        alert("La vente aux enchères est terminée. Vous ne pouvez plus soumettre d'offres.");
         document.getElementById('time-remaining').innerText = 'Vente aux enchères terminée';
-        alarm('les enchères sont terminées.');
+        document.getElementById('current-price').innerText = '-';
+        const bidButtons = document.querySelectorAll('.bid-options button');
+        bidButtons.forEach(button => {
+            button.disabled = true;
+        });
         auctionInProgress = false;
         updateWelcomeSpan('Aucune enchère en cours', null);
     });
 
+    socket.on('updateBidAmount', (amount) => {
+        console.log("gagnant de l'enchere");
+        const currentPriceElement = document.getElementById('current-price');
+        currentPriceElement.innerText = `${amount}€`;
+        document.getElementById('welcome-span').innerText = `Vous l'avez emportée !! `;
+    });
+
+
+    socket.on('auctioneerLeft', () => {
+        document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
+        alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
+        const bidButtons = document.querySelectorAll('.bid-options button');
+        bidButtons.forEach(button => {
+            button.disabled = true;
+        });
+    });
+
+    
     socket.on('bidderLeft', () => {
         alert("Un enchérisseur a quitté la vente.");
     });
 
-    socket.on('auctioneerLeft', () => {
-        console.log("Commissaire parti");
-        document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
-    });
+
 
 
     function updateWelcomeSpan(item, price) {
-        let message = 'Aucune enchère en cours';
+        let message = 'En attente';
+        let displayPrice = 'En attente';
         if (auctionInProgress && item && price !== null) {
             message = `Enchère en cours pour l'objet : ${item}`;
+            displayPrice = `${price}€`;
         }
         document.getElementById('welcome-span').innerText = message;
-    }  
+        document.getElementById('current-price').innerText = displayPrice;
+    }
 
 
     function setup() {
@@ -77,12 +108,15 @@ document.addEventListener('DOMContentLoaded', function() {
         bidButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const amount = parseInt(this.dataset.amount);
-                placeBid(socket, bidderId, amount);
+                const currentPriceElement = document.getElementById('current-price');
+                const newPrice = amount + parseInt(currentPriceElement.innerText);
+                currentPriceElement.innerText = `${newPrice}€`;
+                placeBid( bidderId, amount);
             });
         });
     }
 
-    function placeBid(socket, bidderId, amount) {
+    function placeBid(bidderId, amount) {
         socket.emit('bid', bidderId, amount);
     }
 
