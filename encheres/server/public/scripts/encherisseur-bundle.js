@@ -47,8 +47,24 @@ document.addEventListener('DOMContentLoaded', function() {
       const current = document.getElementById('current-price');
       let currentPriceValue = parseInt(current.innerText);
       currentPriceValue += parseInt(amount);
-      current.innerText = currentPriceValue;
+      current.innerText = currentPriceValue + '€';
 
+    });
+
+
+    socket.on('auctioneerLeft', (auctioneerId) => {
+        console.log("Le commissaire priseur a quitté la vente.", auctioneerId);
+        document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
+        alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
+        const bidButtons = document.querySelectorAll('.bid-options button');
+        bidButtons.forEach(button => {
+            button.disabled = true;
+        });
+        const form = document.getElementById('bidder-info');
+        if (form) {
+            form.remove();
+        }
+        auctionInProgress = false;
     });
 
     socket.on('winner', (bidderId,currentBid) => {
@@ -82,25 +98,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     socket.on('auctionEndedWithoutWinner', () => {
+        console.log("Les enchères sont terminées sans gagnant.");
         document.getElementById('welcome-span').innerText = "La vente aux enchères est terminée sans gagnant.";
         alert("La vente aux enchères est terminée sans gagnant.");
         const bidButtons = document.querySelectorAll('.bid-options button');
         bidButtons.forEach(button => {
             button.disabled = true;
         });
+        const form = document.getElementById('bidder-info');
+        if (form) {
+            form.remove();
+        }
+        auctionInProgress = false;
     });
 
 
 
-
-    socket.on('auctioneerLeft', (auctioneerId) => {
-        document.getElementById('welcome-span').innerText = `Le commissaire priseur a quitté la vente.`;
-        alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
-        const bidButtons = document.querySelectorAll('.bid-options button');
-        bidButtons.forEach(button => {
-            button.disabled = true;
-        });
-    });
 
 
     socket.on('bidderLeft', () => {

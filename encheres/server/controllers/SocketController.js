@@ -41,12 +41,13 @@ export default class SocketController {
         });
         socket.on('disconnect', () => {
             if (this.#auctioneer && this.#auctioneer.id === socket.id) {
+                const auctioneerId = this.#auctioneer.id;
                 this.#auctioneer = null;
-                this.#io.to(AUCTION_ROOM).emit('auctioneerLeft', socket.id);
+                socket.broadcast.emit('auctioneerLeft', auctioneerId);
                 console.log("Le commissaire-priseur a quitté la vente.");
             } else if (this.#bidders.has(socket.id)) {
                 this.#bidders.delete(socket.id);
-                this.#io.to(AUCTION_ROOM).emit('bidderLeft');
+                socket.broadcast.to(AUCTION_ROOM).emit('bidderLeft');
                 console.log("Un enchérisseur a quitté la vente.");
             }
         });
@@ -125,7 +126,13 @@ export default class SocketController {
             this.#currentSocketOffer.emit('auctionEndedForBidders');
             this.#currentSocketOffer = null;
         } else {
-            this.#io.to(AUCTION_ROOM).emit('auctionEndedWithoutWinner');
+            console.log("Aucun enchérisseur n'a fait d'offre, émettre 'auctionEndedWithoutWinner'");
+            if (this.#auctioneer) {
+                this.#auctioneer.emit('auctionEndedWithoutWinner');
+            } else {
+                console.log("Aucun commissaire-priseur trouvé, émettre 'auctionEndedWithoutWinner' à tous les clients");
+                this.#io.emit('auctionEndedWithoutWinner');
+            }
         }
         if (this.#started) {
           if (this.#auctioneer) {

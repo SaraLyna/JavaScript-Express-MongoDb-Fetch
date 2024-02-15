@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function end() {
         socket.emit('endAuction');
         auctionInProgress = false;
-        alert("Vente aux enchères terminée !");
+        //alert("Vente aux enchères terminée !");
     }
 
 
@@ -92,14 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (encheresForm) {
             encheresForm.remove();
         }
-    });
-
-
-
-    socket.on('auctioneerLeft', () => {
-        console.log("le comissaire est parti");
-        alert("Le commissaire priseur a quitté la vente. Les enchères sont annulées.");
-        //document.getElementById('montant-actuel').innerText = 'Vente terminée';
     });
 
 
