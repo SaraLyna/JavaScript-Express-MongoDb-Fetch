@@ -63,9 +63,16 @@ Ce fichier contient des informations telles que le nom du projet, la version, la
 - `npm install` coté client : crée le répertoire local node_modules, et installe les dépendances déclarées dans le fichier package.json du projet Node.js.
 - `npm install` coté server : crée le répertoire local node_modules, et installe les dépendances déclarées dans le fichier package.json du projet Node.js.
 - `npm run build` coté client seulement :  exécute un script spécifique défini dans le fichier package.json du projet Node.js. permettant ainsi d'automatiser le processus de construction de l'application.
-- `npm install socket.io` pour installer le package socket.io
+- `npm install socket.io` pour installer le package socket.io dans server
 - pour lancer le server on peut utiliser la commande `nodemon` directement dans le dossier server ou il y a index.js, et aller sur la page `http://localhost:8080`
+ou bien `npm run start` ou `node index.js`
+dans tous les cas ça marchera.
 
 ## Quelques précisions
 - le fichier SocketController.js s'occupe des différentes connections et déconnections.
-- Si nodemon n'est pas configuré on lance le server avec `npm run start`
+- Si nodemon n'est pas configuré on lance le server avec `npm run start` et s'il est configuré on lance `nodemon`
+- Quand le commissaire se connecte, et qu'un autre commissaire essaye de se connecter il est alerté qu'il y a déja un commissaire priseur, 
+- quand les enchérisseurs se connectent et que le commissaire priseur commence la vente en appuyant sur start, d'autres enchérisseurs ne peuvent pas rejoindre la vente avant que la première ne soit terminée,
+- Si le commissaire priseur veut commencer une vente avant d'avoir tapé le nom de l'objet il est alerté qu'il doit d'abord donner un objet et un prix,
+- quand le commissaire priseur termine la vente en appuyant sur le boutton end,
+les enchérisseurs sont alertés que la vente est terminée, et l'enchérisseur qui a emporté la vente est également alerté.
