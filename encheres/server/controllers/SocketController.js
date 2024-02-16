@@ -129,10 +129,11 @@ export default class SocketController {
             console.log("Aucun enchérisseur n'a fait d'offre, émettre 'auctionEndedWithoutWinner'");
             if (this.#auctioneer) {
                 this.#auctioneer.emit('auctionEndedWithoutWinner');
-            } else {
-                console.log("Aucun commissaire-priseur trouvé, émettre 'auctionEndedWithoutWinner' à tous les clients");
-                this.#io.emit('auctionEndedWithoutWinner');
+                console.log("pas de gagnant ici");
             }
+                console.log("émettre 'auctionEndedWithoutWinner' à tous les clients");
+                this.#auctioneer.broadcast.emit('auctionEndedWithoutWinner');
+
         }
         if (this.#started) {
           if (this.#auctioneer) {

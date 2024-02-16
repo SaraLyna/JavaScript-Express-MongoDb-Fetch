@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             button.disabled = true;
         });
         auctionInProgress = false;
-        document.getElementById('welcome-span').innerText = "La vente aux enchères est terminée. Le gagnant est ${bidderId} avec une offre de ${currentBid}€.";
+        document.getElementById('welcome-span').innerText = "La vente aux enchères est terminée. Un autre enchérisseur a remporté la vente.";
         //updateWelcomeSpan('Aucune enchère en cours', null);
     });
 
@@ -107,13 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
         auctionInProgress = false;
     });
 
-
-
-
-
-    socket.on('bidderLeft', () => {
-        alert("Un enchérisseur a quitté la vente.");
-    });
 
 
 

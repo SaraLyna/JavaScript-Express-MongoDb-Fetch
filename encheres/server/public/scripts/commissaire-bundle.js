@@ -100,6 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+    socket.on('bidderLeft', () => {
+        alert("Un enchérisseur a quitté la vente.");
+    });
+
+
+
 
 });
 
