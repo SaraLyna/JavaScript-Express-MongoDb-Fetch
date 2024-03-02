@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const rootController = require('../controllers/RootController');
+const jsonController = require("../controllers/jsonController");
 
-router.get('/', rootController.handleRootRequest);
+router.get("/", jsonController.json);
+router.get("/random", jsonController.random);
+
 
 module.exports = router;
 
