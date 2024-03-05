@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const jsonRouter = require("./routes/json");
@@ -25,6 +26,13 @@ app.use('/', indexRouter);
 app.use("/json", jsonRouter);
 app.use(error);
 
+
+const dbURI = 'mongodb://localhost:3000/tasksBase';
+const dbConnection = mongoose.createConnection(dbURI);
+
+dbConnection.on('connected',
+  () => console.log(`dbConnection : connected to ${dbURI}`)
+);
 
 
 module.exports = app;
