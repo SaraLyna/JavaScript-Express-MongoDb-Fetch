@@ -8,8 +8,6 @@ const indexRouter = require('./routes/index');
 const jsonRouter = require("./routes/json");
 const error = require('./routes/error');
 
-const errorMiddleware = require('./middlewares/error.middleware');
-
 
 const app = express();
 
@@ -27,7 +25,6 @@ app.use('/', indexRouter);
 app.use("/json", jsonRouter);
 app.use(error);
 
-app.use(errorMiddleware);
 
 
 module.exports = app;
