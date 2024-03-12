@@ -36,13 +36,22 @@ Pour simplifier le travail, on accepte que :
     
     
 ## Commandes
+- Configuration de base pour un serveur Express :
 `npm install express-generator --global`
 `express --view=pug spectacle`
-`npm install`
-`npm run start` - `nodemon`
 
+- Ensuite :
+`npm install`
+
+- Connexion à la base de données MongoDb :
+`mongod --dbpath dbPath`
+
+- `npm install jsonwebtoken` installer JWT
+- `npm install bcrypt`
+
+`npm run start` - `nodemon`, pour lancer le server
 
 ## Explications :
 
-
+- Authentification utilisateur utilisée : JWT (`JSON Web Tokens`).
 
