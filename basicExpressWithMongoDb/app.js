@@ -8,9 +8,21 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const jsonRouter = require("./routes/json");
 const error = require('./routes/error');
+const taskRouter = require('./routes/taskRouter');
 
 
 const app = express();
+
+
+mongoose.connect('mongodb://localhost/tasksBase')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB:', err);
+  });
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,16 +35,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/task', taskRouter);
+app.use('/todo', express.static(path.join(__dirname, 'public/todo.html')));
 app.use("/json", jsonRouter);
 app.use(error);
-
-
-const dbURI = 'mongodb://localhost:3000/tasksBase';
-const dbConnection = mongoose.createConnection(dbURI);
-
-dbConnection.on('connected',
-  () => console.log(`dbConnection : connected to ${dbURI}`)
-);
 
 
 module.exports = app;
